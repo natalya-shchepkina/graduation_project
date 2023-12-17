@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 
 from page_objects.BasePage import BasePage
@@ -10,7 +11,9 @@ class TopMenu(BasePage):
     BUTTON_HOME = (By.XPATH, "//a[contains(.,'Home ')]")
     BUTTON_LOG_IN = (By.XPATH, "//a[contains(.,'Log in')]")
     BUTTON_CONTACT = (By.XPATH, "//a[contains(.,'Contact')]")
+    BUTTON_LOG_OUT = (By.XPATH, "//a[contains(.,'Log out')]")
 
+    @allure.step("Verify main elements")
     def verify_main_elements(self):
         self._element(self.BUTTON_CART)
         self._element(self.BUTTON_SIGN_UP)
@@ -33,3 +36,6 @@ class TopMenu(BasePage):
 
     def open_contact(self):
         self._click(self.BUTTON_CONTACT)
+
+    def log_out(self):
+        self._click(self.BUTTON_LOG_OUT)

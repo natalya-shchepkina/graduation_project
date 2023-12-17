@@ -1,5 +1,6 @@
+import allure
 from selenium.webdriver.common.by import By
-
+from data.user_data import User
 from page_objects.BasePage import BasePage
 
 
@@ -21,8 +22,9 @@ class CartPage(BasePage):
     def click_purchase(self):
         self._click(self.BUTTON_PURCHASE)
 
+    @allure.step("Pay purchase")
     def pay_purchase(self):
         self.click_place_order()
-        self._input(self.INPUT_NAME, "name")
-        self._input(self.INPUT_CREDITCARD, "888")
+        self._input(self.INPUT_NAME, User.first_name )
+        self._input(self.INPUT_CREDITCARD, User.credit_card)
         self.click_purchase()

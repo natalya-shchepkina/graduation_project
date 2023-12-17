@@ -19,7 +19,7 @@ class BasePage:
     def _verify_element_presence(self, locator):
         try:
             self.logger.info("%s: Find element: %s" % (self.class_name, locator))
-            return WebDriverWait(self.driver, 3).until(EC.visibility_of_element_located(locator))
+            return WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(locator))
         except TimeoutException:
             self.logger.error("%s: Not found element: %s" % (self.class_name, locator))
             allure.attach(

@@ -1,4 +1,5 @@
 import datetime
+import time
 
 import pytest
 import logging
@@ -52,7 +53,6 @@ def browser(request):
     request.addfinalizer(driver.close)
 
     return driver
-
 
 
 
