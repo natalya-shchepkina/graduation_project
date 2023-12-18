@@ -11,7 +11,6 @@ from page_objects.elemets.AboutUsModalDialog import AboutUs
 from page_objects.elemets.LogInModalDialog import LogIn
 from page_objects.elemets.AlertElement import SuccessAlert
 from page_objects.elemets.ContactModalDialog import Contact
-from selenium.webdriver.common.by import By
 
 
 def test_main_page(browser):
