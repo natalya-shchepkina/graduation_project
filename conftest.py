@@ -1,9 +1,11 @@
 import datetime
+import re
 import time
 
 import pytest
 import logging
 
+import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromiumService
 from selenium.webdriver.firefox.service import Service as FFService
@@ -55,4 +57,10 @@ def browser(request):
     return driver
 
 
-
+@pytest.fixture()
+def get_token():
+    response = requests.post("https://automationintesting.online/auth/login", json={"username": "admin",
+                                                                                    "password": "password"})
+    headers = response.headers['Set-Cookie']
+    token = re.search('(\w+);', headers).group()[:-1]
+    return token

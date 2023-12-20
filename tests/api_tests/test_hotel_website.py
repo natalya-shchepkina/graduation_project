@@ -1,3 +1,4 @@
+import datetime
 import random
 
 import pytest
@@ -86,3 +87,36 @@ def test_send_message():
 
     assert response.status_code == 201
 
+
+def test_create_room():
+    body = {"bookingdates": {
+                 "checkin": "2024-00-00",
+                 "checkout": "2024-00-04"},
+            "depositpaid": False,
+            "firstname": User.first_name,
+            "lastname": User.last_name,
+            "roomid": "1",
+            "email": User.email,
+            "phone": User.telephone}
+    response = requests.post("https://automationintesting.online/booking/", json=body)
+
+
+    assert response.json()['bookingid']
+
+
+def test_user_validation(get_token):
+    body = {"token": get_token}
+    response = requests.post("https://automationintesting.online/auth/validate", json=body)
+
+    assert response.status_code == 200
+
+
+def test_get_messages():
+    response = requests.get("https://automationintesting.online/message/")
+    quantity = len(response.json()['messages'])
+    index = random.randint(0, quantity-1)
+
+    assert response.status_code == 200
+    assert response.json()['messages'][index]['id']
+    assert response.json()['messages'][index]['name']
+    assert response.json()['messages'][index]['subject']
