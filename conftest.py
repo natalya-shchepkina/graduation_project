@@ -1,11 +1,9 @@
 import datetime
 import re
-import time
-
 import pytest
 import logging
-
 import requests
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromiumService
 from selenium.webdriver.firefox.service import Service as FFService
@@ -17,7 +15,7 @@ def pytest_addoption(parser):
     )
 
     parser.addoption(
-        "--url",  default="https://www.demoblaze.com/index.html"
+        "--url", default="https://www.demoblaze.com/index.html"
     )
 
 

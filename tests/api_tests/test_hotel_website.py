@@ -1,6 +1,6 @@
-import datetime
 import random
 
+import allure
 import pytest
 import requests
 
@@ -9,6 +9,7 @@ from data.user_data import User
 from jsonschema import validate
 
 
+@allure.title("Validation of the scheme for get rooms")
 def test_api_json_schema():
     response = requests.get("https://automationintesting.online/room/")
 
@@ -34,6 +35,7 @@ def test_api_json_schema():
     validate(instance=response.json(), schema=schema)
 
 
+@allure.title("Sending a message with empty fields")
 @pytest.mark.parametrize("field_error", [
     "Phone may not be blank",
     "Subject may not be blank",
@@ -56,6 +58,7 @@ def test_empty_send_message(field_error):
     assert field_error in response.json()['fieldErrors']
 
 
+@allure.title("Sending a message with invalid data")
 @pytest.mark.parametrize("description_length", [19, 2001])
 @pytest.mark.parametrize("phone_length", [10, 22])
 @pytest.mark.parametrize("email", [
@@ -77,6 +80,7 @@ def test_sending_invalid_messages(phone_length, email, description_length):
     assert 'Message must be between 20 and 2000 characters.' in response.json()['fieldErrors']
 
 
+@allure.title("Sending a message with correct data")
 def test_send_message():
     body = {"name": User.first_name,
             "email": User.email,
@@ -88,7 +92,8 @@ def test_send_message():
     assert response.status_code == 201
 
 
-def test_create_room():
+@allure.title("Room reservation")
+def test_reservation():
     body = {"bookingdates": {
                  "checkin": "2024-00-00",
                  "checkout": "2024-00-04"},
@@ -100,10 +105,10 @@ def test_create_room():
             "phone": User.telephone}
     response = requests.post("https://automationintesting.online/booking/", json=body)
 
-
     assert response.json()['bookingid']
 
 
+@allure.title("User validation")
 def test_user_validation(get_token):
     body = {"token": get_token}
     response = requests.post("https://automationintesting.online/auth/validate", json=body)
@@ -111,6 +116,7 @@ def test_user_validation(get_token):
     assert response.status_code == 200
 
 
+@allure.title("Checking the response to a request receive a message")
 def test_get_messages():
     response = requests.get("https://automationintesting.online/message/")
     quantity = len(response.json()['messages'])
