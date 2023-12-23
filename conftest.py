@@ -5,8 +5,9 @@ import logging
 import requests
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromiumService
-from selenium.webdriver.firefox.service import Service as FFService
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver import ChromeOptions, FirefoxOptions
 
 
 def pytest_addoption(parser):
@@ -31,11 +32,16 @@ def browser(request):
     logger.setLevel(level="INFO")
 
     if browser_name == "chrome":
-        service = ChromiumService()
-        driver = webdriver.Chrome(service=service)
+        options = ChromeOptions()
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--window-size=1920,1080")
+        driver = webdriver.Chrome(options=options)
+
     elif browser_name == "firefox":
-        service = FFService()
-        driver = webdriver.Firefox(service=service)
+        options = FirefoxOptions()
+        driver = webdriver.Firefox(options=options)
     else:
         raise NotImplemented()
 
