@@ -1,13 +1,13 @@
 FROM python:3.11.5-alpine3.18
-RUN apt-get update -y
+RUN sudo apt-get update -y
 # We need wget to set up the PPA and xvfb to have a virtual screen and unzip to install the Chromedriver
-RUN apt-get install -y wget xvfb unzip iputils-ping curl
+RUN sudo apt-get install -y wget xvfb unzip iputils-ping curl
 # Set up the Chrome PPA
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+RUN sudo su -c "echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google.list"
 # Update the package list and install chrome
-RUN apt-get update -y
-RUN apt-get install -y google-chrome-stable
+RUN sudo apt-get update -y
+RUN sudo apt-get install -y google-chrome-stable
 # Set up Chromedriver Environment variables
 ENV CHROMEDRIVER_VERSION 114.0.5735.90
 # ENV CHROMEDRIVER_VERSION 113.0.5672.63
