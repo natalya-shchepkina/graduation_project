@@ -18,12 +18,14 @@ def pytest_addoption(parser):
     parser.addoption(
         "--url", default="https://www.demoblaze.com/index.html"
     )
+    parser.addoption("--vnc", action="store_true")
 
 
 @pytest.fixture()
 def browser(request):
     browser_name = request.config.getoption("--browser")
     url = request.config.getoption("--url")
+    vnc = request.config.getoption("--vnc")
 
     logger = logging.getLogger(request.node.name)
     file_handler = logging.FileHandler(f"logs/{request.node.name}.log")
@@ -31,19 +33,24 @@ def browser(request):
     logger.addHandler(file_handler)
     logger.setLevel(level="INFO")
 
-    if browser_name == "chrome":
-        options = ChromeOptions()
-        options.add_argument("--headless=new")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--window-size=1920,1080")
-        driver = webdriver.Chrome(options=options)
+    executor_url = f"http://localhost:4444/wd/hub"
+    options = ChromeOptions()
 
-    elif browser_name == "firefox":
-        options = FirefoxOptions()
-        driver = webdriver.Firefox(options=options)
-    else:
-        raise NotImplemented()
+    caps = {
+        "selenoid:options": {
+            "enableVNC": vnc
+        },
+        "acceptInsecureCerts": True,
+    }
+
+    for k, v in caps.items():
+        options.set_capability(k, v)
+
+    driver = webdriver.Remote(
+        command_executor=executor_url,
+        options=options
+    )
+
 
     logger.info("===> Test %s started at %s" % (request.node.name, datetime.datetime.now()))
 
