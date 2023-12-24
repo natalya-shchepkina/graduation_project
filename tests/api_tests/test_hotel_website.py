@@ -95,8 +95,8 @@ def test_send_message():
 @allure.title("Room reservation")
 def test_reservation():
     body = {"bookingdates": {
-                 "checkin": "2024-00-00",
-                 "checkout": "2024-00-04"},
+                 "checkin": "",
+                 "checkout": ""},
             "depositpaid": False,
             "firstname": User.first_name,
             "lastname": User.last_name,
@@ -105,7 +105,8 @@ def test_reservation():
             "phone": User.telephone}
     response = requests.post("https://automationintesting.online/booking/", json=body)
 
-    assert response.json()['bookingid']
+    assert response.status_code == 400
+    assert 'must not be null' in response.json()['fieldErrors']
 
 
 @allure.title("User validation")

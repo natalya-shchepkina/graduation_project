@@ -44,4 +44,3 @@ class BasePage:
         element.click()
         element.clear()
         element.send_keys(text)
-

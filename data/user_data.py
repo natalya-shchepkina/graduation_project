@@ -2,7 +2,7 @@ from faker import Faker
 
 
 class User:
-    first_name = f"{Faker().first_name()}_test"
+    first_name = f"{Faker().first_name()}_test_new"
     last_name = Faker().last_name()
     email = Faker().email()
     telephone = Faker().phone_number()
