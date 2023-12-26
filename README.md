@@ -82,7 +82,7 @@ To run the tests with the `pytest_addoption` function options, you can follow th
 Run the tests using the `pytest` command and specify the options:
 
    ```shell
-   pytest --browser chrome --drivers /path/to/chromedriver --url http://127.0.0.1:8081 --url_api https://api.openweathermap.org
+   pytest --browser chrome --url http://127.0.0.1:8081 
    ```
 
    Replace the following options with your desired values:
