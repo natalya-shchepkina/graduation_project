@@ -7,7 +7,6 @@ The project consists of two parts - API tests for a hotel website and UI tests f
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Configuration](#configuration)
 - [Running the Tests](#running-the-tests)
 
 ## Introduction
